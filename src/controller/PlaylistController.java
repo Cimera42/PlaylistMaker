@@ -42,6 +42,7 @@ public class PlaylistController extends Controller<Playlist>
 	public void initialize()
 	{
 		stage.initStyle(StageStyle.UTILITY);
+		stage.setResizable(false);
 
 		getPlaylist().getTempSongs().setAll(getPlaylist().getSongs());
 

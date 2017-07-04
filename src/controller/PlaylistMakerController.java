@@ -27,6 +27,7 @@ public class PlaylistMakerController extends Controller<PlaylistMaker>
 	public void initialize()
 	{
 		stage.initStyle(StageStyle.UTILITY);
+		stage.setResizable(false);
 
 		base.setOnKeyTyped(event -> {
 			switch(event.getCharacter().charAt(0))

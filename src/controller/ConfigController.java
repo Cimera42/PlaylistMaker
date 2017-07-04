@@ -29,6 +29,7 @@ public class ConfigController extends Controller<Config>
 	public void initialize()
 	{
 		stage.initStyle(StageStyle.UTILITY);
+		stage.setResizable(false);
 
 		base.setOnKeyTyped(event -> {
 			System.out.println((int)event.getCharacter().charAt(0));

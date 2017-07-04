@@ -1,4 +1,5 @@
 {
   "music":"C:/Users/Tim/Music/Tracks",
-  "playlists":"C:/Users/Tim/Music/Playlists"
+  "playlists":"C:/Users/Tim/Music/Playlists",
+  "shouldOpenFile":false
 }

@@ -1,7 +1,7 @@
 package model;
 
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -23,6 +23,7 @@ public class Config
 
 	private SimpleStringProperty musicFolder;
 	private SimpleStringProperty playlistFolder;
+	private SimpleBooleanProperty shouldOpenFile;
 
 	private Path path;
 
@@ -42,6 +43,7 @@ public class Config
 			Map parsed = (Map) scriptEngine.eval("Java.asJSONCompatible(" + configString + ")");
 			musicFolder = new SimpleStringProperty((String) parsed.get("music"));
 			playlistFolder = new SimpleStringProperty((String) parsed.get("playlists"));
+			shouldOpenFile = new SimpleBooleanProperty((Boolean) parsed.get("shouldOpenFile"));
 
 		} catch(ScriptException | IOException | URISyntaxException e)
 		{
@@ -58,11 +60,6 @@ public class Config
 		musicFolder.set(newFolder);
 	}
 
-	public StringProperty musicFolderProperty()
-	{
-		return musicFolder;
-	}
-
 	public String getPlaylistFolder()
 	{
 		return playlistFolder.get();
@@ -72,16 +69,21 @@ public class Config
 		playlistFolder.set(newFolder);
 	}
 
-	public StringProperty playlistFolderProperty()
+	public Boolean getShouldOpenFile()
 	{
-		return playlistFolder;
+		return shouldOpenFile.get();
+	}
+	public void setShouldOpenFile(Boolean should)
+	{
+		shouldOpenFile.set(should);
 	}
 
 	public void save() throws IOException
 	{
 		String toWrite = "{\n";
 		toWrite += "\t\"music\":\"" + musicFolder.get() + "\",\n";
-		toWrite += "\t\"playlists\":\"" + playlistFolder.get() + "\"\n";
+		toWrite += "\t\"playlists\":\"" + playlistFolder.get() + "\",\n";
+		toWrite += "\t\"shouldOpenFile\":" + shouldOpenFile.get() + "\n";
 		toWrite += "}";
 		Files.write(path, toWrite.getBytes(Charset.forName("UTF-8")));
 

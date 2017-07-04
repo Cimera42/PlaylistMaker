@@ -1,18 +1,20 @@
 package controller;
 
-import com.sun.javafx.scene.control.skin.LabeledText;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
+import model.Config;
 import model.Playlist;
 import model.PlaylistMaker;
 import utils.Controller;
 import utils.FxmlLoad;
 
+import java.awt.*;
 import java.io.IOException;
 import java.nio.file.Files;
 
@@ -28,7 +30,6 @@ public class PlaylistMakerController extends Controller<PlaylistMaker>
 
 	public void initialize()
 	{
-		stage.initStyle(StageStyle.UTILITY);
 		stage.setResizable(false);
 
 		base.setOnKeyTyped(event -> {
@@ -40,23 +41,47 @@ public class PlaylistMakerController extends Controller<PlaylistMaker>
 
 		EventHandler<KeyEvent> listHandle = event ->
 		{
+//			System.out.println((int)event.getCharacter().charAt(0));
 			switch(event.getCharacter().charAt(0))
 			{
 				case ((char)13): editPlaylist(); break;
+				case ((char)32): openPlaylist(); break;
 				case ((char)127): deletePlaylist(getSelectedPlaylist()); break;
 			}
 		};
 
 		playlistList.setOnKeyTyped(listHandle);
 		playlistList.setOnMouseClicked(event -> {
-			if(event.getClickCount() == 2)
+			if(event.getClickCount() == 2 && event.getButton() == MouseButton.PRIMARY)
 			{
-				if(event.getTarget() instanceof LabeledText)
+				//System.out.println(event);
+				if(event.getTarget() instanceof Text/* || event.getTarget() instanceof ListCell*/)
 					editPlaylist();
 				else
 					newPlaylist();
 			}
 		});
+	}
+
+	private void openPlaylist()
+	{
+		Config config = getPlaylistMaker().getConfig();
+		Desktop desktop = Desktop.getDesktop();
+		Playlist selectedPlaylist = getSelectedPlaylist();
+		try
+		{
+			if(config.getShouldOpenFile())
+			{
+				desktop.open(selectedPlaylist.getPath().toFile());
+			}
+			else
+			{
+				desktop.open(selectedPlaylist.getPath().getParent().toFile());
+			}
+		} catch(IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	private void deletePlaylist(Playlist selectedPlaylist)

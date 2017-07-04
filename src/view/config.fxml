@@ -20,7 +20,10 @@
 			<Label text="Playlist Folder:" fx:id="playlistLabel" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.halignment="RIGHT"/>
 			<TextField fx:id="playlistField" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.halignment="LEFT"/>
 
-			<Button text="Save" onAction="#saveChanges" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2"/>
+			<Label text="Open Playlist Method" fx:id="openMethodLabel" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.halignment="RIGHT"/>
+			<ComboBox fx:id="openFileMethodCombo" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.halignment="LEFT"/>
+
+			<Button text="Save" onAction="#saveChanges" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="3"/>
 		</GridPane>
 	</VBox>
 

@@ -3,17 +3,24 @@ package controller;
 import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
+import javafx.event.EventTarget;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
-import javafx.stage.StageStyle;
+import javafx.scene.text.Text;
 import javafx.util.Callback;
 import model.Playlist;
 import model.PlaylistMaker;
 import model.Song;
 import utils.Controller;
 
+import java.awt.*;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -49,7 +56,6 @@ public class PlaylistController extends Controller<Playlist>
 
 	public void initialize()
 	{
-		stage.initStyle(StageStyle.UTILITY);
 		stage.setResizable(false);
 
 		getPlaylist().getTempSongs().setAll(getPlaylist().getSongs());
@@ -73,6 +79,7 @@ public class PlaylistController extends Controller<Playlist>
 									searchField.replaceText(searchLength-1, searchLength, "");
 								break;
 				case ((char)13): addSong(); break;
+				case ((char)32): openFromList(event.getTarget()); break;
 				case ((char)127): removeSong(); break;
 				default: searchField.insertText(getSearch().length(), event.getCharacter());
 			}
@@ -80,6 +87,24 @@ public class PlaylistController extends Controller<Playlist>
 
 		allSongList.setOnKeyTyped(listHandle);
 		songList.setOnKeyTyped(listHandle);
+
+		EventHandler<MouseEvent> listMouseHandle = event -> {
+			if(event.getClickCount() == 2 && event.getButton() == MouseButton.PRIMARY)
+			{
+				if(event.getSource() instanceof ListView)
+				{
+					if(event.getTarget() instanceof Text || event.getTarget() instanceof ListCell)
+					{
+						Song focused = (((ListView<Song>) event.getSource()).getFocusModel().getFocusedItem());
+						if(focused != null)
+							openSong(focused);
+					}
+				}
+			}
+		};
+
+		allSongList.setOnMouseClicked(listMouseHandle);
+		songList.setOnMouseClicked(listMouseHandle);
 
 		//Set width of cells so contents are shortened to '...'
 		Callback<ListView<Song>, ListCell<Song>> ellipsesShortenCallback = param -> new ListCell<Song>()
@@ -143,6 +168,26 @@ public class PlaylistController extends Controller<Playlist>
 
 		allSongList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		songList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+	}
+
+	private void openFromList(EventTarget target)
+	{
+		if(target == allSongList)
+			openSong(allSongList.getFocusModel().getFocusedItem());
+		else/* if(target == songList)*/
+			openSong(songList.getFocusModel().getFocusedItem());
+	}
+
+	private void openSong(Song toOpen)
+	{
+		Desktop desktop = Desktop.getDesktop();
+		try
+		{
+			desktop.open(toOpen.getPath().toFile());
+		} catch(IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	private String getSearch()

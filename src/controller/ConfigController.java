@@ -1,12 +1,15 @@
 package controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import javafx.stage.StageStyle;
 import model.Config;
 import utils.Controller;
+import utils.PrintablePair;
 
 import java.io.IOException;
 
@@ -15,6 +18,10 @@ import java.io.IOException;
  */
 public class ConfigController extends Controller<Config>
 {
+	@FXML
+	public Label openMethodLabel;
+	@FXML
+	private ComboBox<PrintablePair<Boolean,String>> openFileMethodCombo;
 	@FXML
 	private Label musicLabel;
 	@FXML
@@ -28,11 +35,10 @@ public class ConfigController extends Controller<Config>
 
 	public void initialize()
 	{
-		stage.initStyle(StageStyle.UTILITY);
 		stage.setResizable(false);
 
 		base.setOnKeyTyped(event -> {
-			System.out.println((int)event.getCharacter().charAt(0));
+			//System.out.println((int)event.getCharacter().charAt(0));
 			switch(event.getCharacter().charAt(0))
 			{
 				case ((char)27): exit(); break;
@@ -41,6 +47,7 @@ public class ConfigController extends Controller<Config>
 
 		musicLabel.setLabelFor(musicField);
 		playlistLabel.setLabelFor(playlistField);
+		openMethodLabel.setLabelFor(openFileMethodCombo);
 
 		musicField.setText(getConfig().getMusicFolder());
 		musicField.setPrefWidth(musicField.getText().length()*15);
@@ -63,9 +70,19 @@ public class ConfigController extends Controller<Config>
 				case ((char)13): saveChanges(); break;
 			}
 		});
+
+		ObservableList<PrintablePair<Boolean, String>> options = FXCollections.observableArrayList();
+		options.add(new PrintablePair<>(true, "Open File"));
+		options.add(new PrintablePair<>(false, "Open Folder"));
+		openFileMethodCombo.setItems(options);
+
+		options.forEach(v -> {
+			if(v.getKey() == getConfig().getShouldOpenFile())
+				openFileMethodCombo.getSelectionModel().select(v);
+		});
 	}
 
-	public Config getConfig()
+	private Config getConfig()
 	{
 		return model;
 	}
@@ -75,6 +92,7 @@ public class ConfigController extends Controller<Config>
 	{
 		getConfig().setMusicFolder(musicField.getText());
 		getConfig().setPlaylistFolder(playlistField.getText());
+		getConfig().setShouldOpenFile(openFileMethodCombo.getSelectionModel().getSelectedItem().getKey());
 		try
 		{
 			getConfig().save();

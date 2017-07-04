@@ -131,8 +131,6 @@ public class PlaylistController extends Controller<Playlist>
 
 		allSongList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		songList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-
-		allSongList.focus
 	}
 
 	public String getSearch()

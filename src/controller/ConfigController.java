@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.StageStyle;
 import model.Config;
 import utils.Controller;
 
@@ -68,6 +69,8 @@ public class ConfigController extends Controller<Config>
 
 	public void saveChanges(ActionEvent actionEvent)
 	{
+		stage.initStyle(StageStyle.UTILITY);
+
 		getConfig().setMusicFolder(musicField.getText());
 		getConfig().setPlaylistFolder(playlistField.getText());
 		try

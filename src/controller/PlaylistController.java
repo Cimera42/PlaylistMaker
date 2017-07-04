@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import model.Playlist;
 import model.PlaylistMaker;
@@ -40,6 +41,8 @@ public class PlaylistController extends Controller<Playlist>
 
 	public void initialize()
 	{
+		stage.initStyle(StageStyle.UTILITY);
+
 		getPlaylist().getTempSongs().setAll(getPlaylist().getSongs());
 
 		searchLabel.setLabelFor(searchField);

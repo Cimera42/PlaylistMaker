@@ -7,6 +7,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import model.Playlist;
 import model.PlaylistMaker;
 import utils.Controller;
@@ -25,6 +26,8 @@ public class PlaylistMakerController extends Controller<PlaylistMaker>
 
 	public void initialize()
 	{
+		stage.initStyle(StageStyle.UTILITY);
+
 		base.setOnKeyTyped(event -> {
 			switch(event.getCharacter().charAt(0))
 			{

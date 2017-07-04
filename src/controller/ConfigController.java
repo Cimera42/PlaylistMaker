@@ -60,7 +60,7 @@ public class ConfigController extends Controller<Config>
 			switch(event.getCharacter().charAt(0))
 			{
 				case ((char)27): stage.close(); break;
-				case ((char)13): saveChanges(null); break;
+				case ((char)13): saveChanges(); break;
 			}
 		});
 	}

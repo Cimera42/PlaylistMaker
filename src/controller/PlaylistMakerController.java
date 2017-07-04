@@ -1,5 +1,6 @@
 package controller;
 
+import com.sun.javafx.scene.control.skin.LabeledText;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
@@ -47,7 +48,15 @@ public class PlaylistMakerController extends Controller<PlaylistMaker>
 		};
 
 		playlistList.setOnKeyTyped(listHandle);
-		playlistList
+		playlistList.setOnMouseClicked(event -> {
+			if(event.getClickCount() == 2)
+			{
+				if(event.getPickResult().getIntersectedNode() instanceof LabeledText)
+					editPlaylist();
+				else
+					newPlaylist();
+			}
+		});
 	}
 
 	private void deletePlaylist(Playlist selectedPlaylist)
@@ -75,10 +84,17 @@ public class PlaylistMakerController extends Controller<PlaylistMaker>
 		return playlistList.getSelectionModel().getSelectedItem();
 	}
 
-	public void newPlaylist() throws IOException
+	@FXML
+	private void newPlaylist()
 	{
 		String fxmlFile = "/view/playlist.fxml";
-		FxmlLoad.fxmlWindow(new Playlist(getPlaylistMaker()), fxmlFile, "New Playlist", new Stage());
+		try
+		{
+			FxmlLoad.fxmlWindow(new Playlist(getPlaylistMaker()), fxmlFile, "New Playlist", new Stage());
+		} catch(IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	@FXML

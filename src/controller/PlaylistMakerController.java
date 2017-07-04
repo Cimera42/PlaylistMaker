@@ -51,7 +51,7 @@ public class PlaylistMakerController extends Controller<PlaylistMaker>
 		playlistList.setOnMouseClicked(event -> {
 			if(event.getClickCount() == 2)
 			{
-				if(event.getPickResult().getIntersectedNode() instanceof LabeledText)
+				if(event.getTarget() instanceof LabeledText)
 					editPlaylist();
 				else
 					newPlaylist();

@@ -28,6 +28,8 @@ public class ConfigController extends Controller<Config>
 
 	public void initialize()
 	{
+		stage.initStyle(StageStyle.UTILITY);
+
 		base.setOnKeyTyped(event -> {
 			System.out.println((int)event.getCharacter().charAt(0));
 			switch(event.getCharacter().charAt(0))
@@ -69,8 +71,6 @@ public class ConfigController extends Controller<Config>
 
 	public void saveChanges(ActionEvent actionEvent)
 	{
-		stage.initStyle(StageStyle.UTILITY);
-
 		getConfig().setMusicFolder(musicField.getText());
 		getConfig().setPlaylistFolder(playlistField.getText());
 		try

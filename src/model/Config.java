@@ -79,8 +79,8 @@ public class Config
 	public void save() throws IOException
 	{
 		String toWrite = "{\n";
-		toWrite += "\"music\":\"" + musicFolder.get() + "\",\n";
-		toWrite += "\"playlists\":\"" + playlistFolder.get() + "\"\n";
+		toWrite += "\t\"music\":\"" + musicFolder.get() + "\",\n";
+		toWrite += "\t\"playlists\":\"" + playlistFolder.get() + "\"\n";
 		toWrite += "}";
 		Files.write(Paths.get(path), toWrite.getBytes(Charset.forName("UTF-8")));
 

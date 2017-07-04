@@ -7,11 +7,10 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 
@@ -25,23 +24,26 @@ public class Config
 	private SimpleStringProperty musicFolder;
 	private SimpleStringProperty playlistFolder;
 
-	private URI path;
+	private Path path;
 
-	public Config(PlaylistMaker playlistMaker, URL resource)
+	public Config(PlaylistMaker playlistMaker)
 	{
 		this.playlistMaker = playlistMaker;
 
 		try
 		{
-			System.out.println(resource.toURI());
-			path = resource.toURI();
-			String configString = new String(Files.readAllBytes(Paths.get(resource.toURI())));
+			path = Paths.get("./config.json");
+			//Plain ./ doesn't load in dev mode, but does when as a jar
+			//and vice versa, getResource doesn't load as jar
+			if(!path.toFile().exists())
+				path = Paths.get(getClass().getResource("/config.json").toURI());
+			String configString = new String(Files.readAllBytes(path));
 			ScriptEngine scriptEngine = new ScriptEngineManager().getEngineByName("javascript");
 			Map parsed = (Map) scriptEngine.eval("Java.asJSONCompatible(" + configString + ")");
 			musicFolder = new SimpleStringProperty((String) parsed.get("music"));
 			playlistFolder = new SimpleStringProperty((String) parsed.get("playlists"));
 
-		} catch(IOException | URISyntaxException | ScriptException e)
+		} catch(ScriptException | IOException | URISyntaxException e)
 		{
 			e.printStackTrace();
 		}
@@ -81,7 +83,7 @@ public class Config
 		toWrite += "\t\"music\":\"" + musicFolder.get() + "\",\n";
 		toWrite += "\t\"playlists\":\"" + playlistFolder.get() + "\"\n";
 		toWrite += "}";
-		Files.write(Paths.get(path), toWrite.getBytes(Charset.forName("UTF-8")));
+		Files.write(path, toWrite.getBytes(Charset.forName("UTF-8")));
 
 		playlistMaker.reloadAll();
 	}

@@ -6,7 +6,9 @@ import javafx.collections.ObservableList;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Comparator;
 
@@ -24,7 +26,7 @@ public class PlaylistMaker
 
 	public PlaylistMaker()
 	{
-		config = new Config(this, getClass().getResource("/config.json"));
+		config = new Config(this);
 
 		reloadAll();
 	}

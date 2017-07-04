@@ -1,30 +1,30 @@
 package controller;
 
-import javafx.beans.binding.Bindings;
-import javafx.event.ActionEvent;
-import javafx.scene.Group;
-import javafx.scene.Scene;
+import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.StageStyle;
 import model.Config;
 import utils.Controller;
 
 import java.io.IOException;
-import java.nio.file.Files;
 
 /**
  * Created by Tim on 3/07/2017 at 8:22 PM.
  */
 public class ConfigController extends Controller<Config>
 {
-	public Label musicLabel;
-	public TextField musicField;
-	public Label playlistLabel;
-	public TextField playlistField;
-	public VBox base;
+	@FXML
+	private Label musicLabel;
+	@FXML
+	private TextField musicField;
+	@FXML
+	private Label playlistLabel;
+	@FXML
+	private TextField playlistField;
+	@FXML
+	private VBox base;
 
 	public void initialize()
 	{
@@ -70,7 +70,8 @@ public class ConfigController extends Controller<Config>
 		return model;
 	}
 
-	public void saveChanges(ActionEvent actionEvent)
+	@FXML
+	private void saveChanges()
 	{
 		getConfig().setMusicFolder(musicField.getText());
 		getConfig().setPlaylistFolder(playlistField.getText());
@@ -84,7 +85,7 @@ public class ConfigController extends Controller<Config>
 		stage.close();
 	}
 
-	public void exit(ActionEvent actionEvent)
+	public void exit()
 	{
 		stage.close();
 	}

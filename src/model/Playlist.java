@@ -5,7 +5,6 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -17,12 +16,12 @@ import java.util.List;
  */
 public class Playlist
 {
-	private SimpleStringProperty name = new SimpleStringProperty();
+	private final SimpleStringProperty name = new SimpleStringProperty();
 	private Path path;
 	private ObservableList<Song> songs = FXCollections.observableArrayList();
-	private ObservableList<Song> tempSongs = FXCollections.observableArrayList();
+	private final ObservableList<Song> tempSongs = FXCollections.observableArrayList();
 
-	private PlaylistMaker playlistMaker;
+	private final PlaylistMaker playlistMaker;
 
 	public Playlist(PlaylistMaker playlistMaker)
 	{

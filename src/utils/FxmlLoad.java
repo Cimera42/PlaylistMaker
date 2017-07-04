@@ -17,7 +17,7 @@ public class FxmlLoad
 		FXMLLoader loader = new FXMLLoader(Controller.class.getResource(fxml), null, null,
 				type -> {
 					try {
-						Controller<T> controller = (Controller<T>)type.newInstance();
+						Controller<T> controller = (Controller<T>) type.newInstance();
 						controller.model = model;
 						controller.stage = stage;
 						return controller;

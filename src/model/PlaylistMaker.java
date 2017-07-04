@@ -1,20 +1,13 @@
 package model;
 
 import javafx.beans.Observable;
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.ListProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import jdk.nashorn.internal.parser.JSONParser;
-import jdk.nashorn.internal.runtime.JSONFunctions;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.nio.file.attribute.FileTime;
 import java.util.Comparator;
 
 /**
@@ -22,14 +15,14 @@ import java.util.Comparator;
  */
 public class PlaylistMaker
 {
-	public enum FileSortType {ALPHABETICAL, DATE};
+	public enum FileSortType {ALPHABETICAL, DATE}
 
-	private ObservableList<Playlist> playlists = FXCollections.observableArrayList(i -> new Observable[]{i.getName()});
-	private ObservableList<Song> allSongs = FXCollections.observableArrayList();
+	private final ObservableList<Playlist> playlists = FXCollections.observableArrayList(i -> new Observable[]{i.getName()});
+	private final ObservableList<Song> allSongs = FXCollections.observableArrayList();
 
-	private Config config;
+	private final Config config;
 
-	public PlaylistMaker() throws IOException
+	public PlaylistMaker()
 	{
 		config = new Config(this, getClass().getResource("/config.json"));
 
@@ -147,7 +140,7 @@ public class PlaylistMaker
 		}
 	}
 
-	public void reloadSongs()
+	private void reloadSongs()
 	{
 		allSongs.clear();
 		try

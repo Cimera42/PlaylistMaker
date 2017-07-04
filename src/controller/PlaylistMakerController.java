@@ -1,8 +1,7 @@
 package controller;
 
-import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
@@ -21,8 +20,10 @@ import java.nio.file.Files;
  */
 public class PlaylistMakerController extends Controller<PlaylistMaker>
 {
-	public ListView<Playlist> playlistList;
-	public VBox base;
+	@FXML
+	private ListView<Playlist> playlistList;
+	@FXML
+	private VBox base;
 
 	public void initialize()
 	{
@@ -40,12 +41,13 @@ public class PlaylistMakerController extends Controller<PlaylistMaker>
 		{
 			switch(event.getCharacter().charAt(0))
 			{
-				case ((char)13): editPlaylist(null); break;
+				case ((char)13): editPlaylist(); break;
 				case ((char)127): deletePlaylist(getSelectedPlaylist()); break;
 			}
 		};
 
 		playlistList.setOnKeyTyped(listHandle);
+		playlistList
 	}
 
 	private void deletePlaylist(Playlist selectedPlaylist)
@@ -68,18 +70,19 @@ public class PlaylistMakerController extends Controller<PlaylistMaker>
 		return model;
 	}
 
-	public Playlist getSelectedPlaylist()
+	private Playlist getSelectedPlaylist()
 	{
 		return playlistList.getSelectionModel().getSelectedItem();
 	}
 
-	public void newPlaylist(ActionEvent actionEvent) throws IOException
+	public void newPlaylist() throws IOException
 	{
 		String fxmlFile = "/view/playlist.fxml";
 		FxmlLoad.fxmlWindow(new Playlist(getPlaylistMaker()), fxmlFile, "New Playlist", new Stage());
 	}
 
-	public void editPlaylist(ActionEvent actionEvent)
+	@FXML
+	private void editPlaylist()
 	{
 		Playlist selectedPlaylist = getSelectedPlaylist();
 		if(selectedPlaylist != null)
@@ -95,13 +98,13 @@ public class PlaylistMakerController extends Controller<PlaylistMaker>
 		}
 	}
 
-	public void openConfig(Event actionEvent) throws IOException
+	public void openConfig() throws IOException
 	{
 		String fxmlFile = "/view/config.fxml";
 		FxmlLoad.fxmlWindow(getPlaylistMaker().getConfig(), fxmlFile, "Config", new Stage());
 	}
 
-	public void exit(Event actionEvent)
+	public void exit()
 	{
 		stage.close();
 	}

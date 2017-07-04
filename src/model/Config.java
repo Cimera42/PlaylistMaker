@@ -2,7 +2,6 @@ package model;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import jdk.nashorn.internal.runtime.JSONFunctions;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -21,7 +20,7 @@ import java.util.Map;
  */
 public class Config
 {
-	private PlaylistMaker playlistMaker;
+	private final PlaylistMaker playlistMaker;
 
 	private SimpleStringProperty musicFolder;
 	private SimpleStringProperty playlistFolder;

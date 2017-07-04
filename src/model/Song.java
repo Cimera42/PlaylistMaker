@@ -1,6 +1,5 @@
 package model;
 
-import java.io.File;
 import java.nio.file.Path;
 
 /**
@@ -8,8 +7,8 @@ import java.nio.file.Path;
  */
 public class Song
 {
-	private String name;
-	private Path path;
+	private final String name;
+	private final Path path;
 
 	public Song(String name, Path path)
 	{

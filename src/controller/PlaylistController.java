@@ -2,12 +2,11 @@ package controller;
 
 import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import model.Playlist;
@@ -28,16 +27,25 @@ import java.util.ArrayList;
  */
 public class PlaylistController extends Controller<Playlist>
 {
-	public Button addSongButton;
-	public Button removeSongButton;
-	public ListView<Song> allSongList;
-	public ListView<Song> songList;
-	public TextField searchField;
-	public Label searchLabel;
-	public Label saveNameLabel;
-	public TextField saveNameField;
+	@FXML
+	private Button addSongButton;
+	@FXML
+	private Button removeSongButton;
+	@FXML
+	private ListView<Song> allSongList;
+	@FXML
+	private ListView<Song> songList;
+	@FXML
+	private TextField searchField;
+	@FXML
+	private Label searchLabel;
+	@FXML
+	private Label saveNameLabel;
+	@FXML
+	private TextField saveNameField;
 	public Button saveButton;
-	public VBox base;
+	@FXML
+	private VBox base;
 
 	public void initialize()
 	{
@@ -52,7 +60,7 @@ public class PlaylistController extends Controller<Playlist>
 		base.setOnKeyTyped(event -> {
 			switch(event.getCharacter().charAt(0))
 			{
-				case ((char)27): exit(null); break;
+				case ((char)27): exit(); break;
 			}
 		});
 
@@ -64,8 +72,8 @@ public class PlaylistController extends Controller<Playlist>
 								if(searchLength > 0)
 									searchField.replaceText(searchLength-1, searchLength, "");
 								break;
-				case ((char)13): addSong(null); break;
-				case ((char)127): removeSong(null); break;
+				case ((char)13): addSong(); break;
+				case ((char)127): removeSong(); break;
 				default: searchField.insertText(getSearch().length(), event.getCharacter());
 			}
 		};
@@ -109,15 +117,15 @@ public class PlaylistController extends Controller<Playlist>
 		searchField.setOnKeyTyped(event -> {
 			switch(event.getCharacter().charAt(0))
 			{
-				case ((char)27): exit(null); break;
+				case ((char)27): exit(); break;
 			}
 		});
 
 		saveNameField.setOnKeyTyped(event -> {
 			switch(event.getCharacter().charAt(0))
 			{
-				case ((char)27): exit(null); break;
-				case ((char)13): savePlaylist(null); break;
+				case ((char)27): exit(); break;
+				case ((char)13): savePlaylist(); break;
 			}
 		});
 
@@ -137,17 +145,17 @@ public class PlaylistController extends Controller<Playlist>
 		songList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 	}
 
-	public String getSearch()
+	private String getSearch()
 	{
 		return searchField.getText();
 	}
 
-	public String getPlaylistName()
+	private String getPlaylistName()
 	{
 		return getPlaylist().getName().get();
 	}
 
-	public PlaylistMaker getPlaylistMaker()
+	private PlaylistMaker getPlaylistMaker()
 	{
 		return model.getPlaylistMaker();
 	}
@@ -167,23 +175,26 @@ public class PlaylistController extends Controller<Playlist>
 		return songList.getSelectionModel().getSelectedItems();
 	}
 
-	public void addSong(ActionEvent actionEvent)
+	@FXML
+	private void addSong()
 	{
 		ObservableList<Song> songs = getPlaylist().getTempSongs();
 		songs.addAll(getNewSongs());
 	}
 
-	public void removeSong(ActionEvent actionEvent)
+	@FXML
+	private void removeSong()
 	{
 		ObservableList<Song> songs = getPlaylist().getTempSongs();
 		songs.removeAll(getSelectedSongs());
 	}
 
-	public void savePlaylist(ActionEvent actionEvent)
+	@FXML
+	private void savePlaylist()
 	{
 		Path playlistFolderPath = Paths.get(getPlaylistMaker().getConfig().getPlaylistFolder());
 
-		ArrayList<String> files = new ArrayList<String>();
+		ArrayList<String> files = new ArrayList<>();
 		getPlaylist().getTempSongs().forEach(v -> files.add(playlistFolderPath.relativize(v.getPath()).toString()));
 
 		Path playlistPath = Paths.get(playlistFolderPath + "/" + getPlaylistName() + ".m3u");
@@ -207,10 +218,11 @@ public class PlaylistController extends Controller<Playlist>
 		//Songs get reloaded into playlist anyway
 		//So don't need to transfer temp songs into main list
 		getPlaylistMaker().reloadPlaylists();
-		exit(null);
+		exit();
 	}
 
-	public void exit(ActionEvent actionEvent)
+	@FXML
+	private void exit()
 	{
 		getPlaylist().getTempSongs().clear();
 		stage.close();

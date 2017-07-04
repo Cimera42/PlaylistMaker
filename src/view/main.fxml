@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.GridPane?>
+<?import java.net.URL?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Label?>
+<VBox xmlns="http://javafx.com/javafx"
+	  xmlns:fx="http://javafx.com/fxml"
+	  fx:controller="controller.PlaylistMakerController" prefHeight="400.0"
+	  fx:id="base">
+	<MenuBar>
+		<Menu text="Options">
+			<MenuItem text="Config" onAction="#openConfig"/>
+			<MenuItem text="Exit" onAction="#exit"/>
+		</Menu>
+	</MenuBar>
+
+	<VBox alignment="CENTER" styleClass="base">
+		<GridPane hgap="10" vgap="10" alignment="CENTER">
+			<ListView fx:id="playlistList" GridPane.columnIndex="0" GridPane.rowIndex="0" items="${controller.playlistMaker.playlists}"/>
+			<HBox GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER"
+				alignment="CENTER" spacing="10">
+				<Button text="Edit" onAction="#editPlaylist"/>
+				<Button text="New" onAction="#newPlaylist"/>
+			</HBox>
+		</GridPane>
+	</VBox>
+
+	<stylesheets>
+		<URL value="@style.css"/>
+	</stylesheets>
+</VBox>

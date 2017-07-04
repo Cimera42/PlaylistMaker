@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+
+<VBox xmlns="http://javafx.com/javafx"
+	  xmlns:fx="http://javafx.com/fxml"
+	  fx:controller="controller.PlaylistController"
+	  prefHeight="400.0" fx:id="base">
+	<MenuBar>
+		<Menu text="Options">
+			<MenuItem text="Exit" onAction="#exit"/>
+		</Menu>
+	</MenuBar>
+
+	<VBox alignment="CENTER" styleClass="base">
+		<GridPane vgap="10" hgap="10">
+			<HBox GridPane.halignment="LEFT" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2" spacing="10" alignment="CENTER_LEFT">
+				<Label text="Search:" fx:id="searchLabel"/>
+				<TextField fx:id="searchField"/>
+			</HBox>
+			<HBox GridPane.columnIndex="2" GridPane.columnSpan="1" GridPane.rowIndex="0" spacing="10" alignment="CENTER_LEFT">
+				<Label text="Name:" fx:id="saveNameLabel"/>
+				<TextField fx:id="saveNameField"/>
+				<Button fx:id="saveButton" text="Save" onAction="#savePlaylist"/>
+			</HBox>
+			<ListView GridPane.halignment="LEFT" GridPane.columnIndex="0" GridPane.rowIndex="1" fx:id="allSongList"/>
+			<VBox GridPane.columnIndex="1" GridPane.rowIndex="1" prefWidth="60" alignment="CENTER" spacing="10">
+				<Button fx:id="addSongButton" onAction="#addSong"/>
+				<Button fx:id="removeSongButton" onAction="#removeSong"/>
+			</VBox>
+			<ListView GridPane.halignment="RIGHT" GridPane.columnIndex="2" GridPane.rowIndex="1"  fx:id="songList" items="${controller.playlist.tempSongs}"/>
+		</GridPane>
+	</VBox>
+
+	<stylesheets>
+		<URL value="@style.css"/>
+	</stylesheets>
+</VBox>

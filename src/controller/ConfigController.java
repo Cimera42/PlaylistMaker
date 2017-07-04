@@ -35,7 +35,7 @@ public class ConfigController extends Controller<Config>
 			System.out.println((int)event.getCharacter().charAt(0));
 			switch(event.getCharacter().charAt(0))
 			{
-				case ((char)27): stage.close(); break;
+				case ((char)27): exit(); break;
 			}
 		});
 
@@ -51,7 +51,7 @@ public class ConfigController extends Controller<Config>
 		musicField.setOnKeyTyped(event -> {
 			switch(event.getCharacter().charAt(0))
 			{
-				case ((char)27): stage.close(); break;
+				case ((char)27): exit(); break;
 				case ((char)13): playlistField.requestFocus(); break;
 			}
 		});
@@ -59,7 +59,7 @@ public class ConfigController extends Controller<Config>
 		playlistField.setOnKeyTyped(event -> {
 			switch(event.getCharacter().charAt(0))
 			{
-				case ((char)27): stage.close(); break;
+				case ((char)27): exit(); break;
 				case ((char)13): saveChanges(); break;
 			}
 		});
@@ -82,7 +82,7 @@ public class ConfigController extends Controller<Config>
 		{
 			e.printStackTrace();
 		}
-		stage.close();
+		exit();
 	}
 
 	public void exit()

@@ -34,7 +34,7 @@ public class PlaylistMakerController extends Controller<PlaylistMaker>
 		base.setOnKeyTyped(event -> {
 			switch(event.getCharacter().charAt(0))
 			{
-				case ((char)27): stage.close(); break;
+				case ((char)27): exit(); break;
 			}
 		});
 

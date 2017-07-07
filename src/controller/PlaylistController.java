@@ -163,7 +163,17 @@ public class PlaylistController extends Controller<Playlist>
 
 		allSongList.itemsProperty().bind(Bindings.createObjectBinding(() -> {
 			ObservableList<Song> songs = getPlaylist().getTempSongs();
-			return getPlaylistMaker().getFiltered(getSearch().toLowerCase(), PlaylistMaker.FileSortType.DATE).filtered(v -> !songs.contains(v));
+			ObservableList<Song> filteredSongs = getPlaylistMaker().getFiltered(getSearch().toLowerCase(), PlaylistMaker.FileSortType.DATE);
+
+			return filteredSongs.filtered(v ->
+			{
+				for(Song s : songs)
+				{
+					if(s.getPath().equals(v.getPath()))
+						return false;
+				}
+				return true;
+			});
 		}, getPlaylist().getTempSongs(), searchField.textProperty()));
 
 		allSongList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
